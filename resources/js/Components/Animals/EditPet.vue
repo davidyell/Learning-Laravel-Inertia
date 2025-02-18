@@ -162,6 +162,7 @@ const form = useForm(props.animal);
                         v-if="isModal"
                         class="mt-4"
                         @click="
+                            $event.preventDefault();
                             emit('close');
                             form.reset();
                             form.clearErrors();
