@@ -13,6 +13,6 @@ class AnimalSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\Animal::factory(20)->create();
     }
 }

@@ -12,6 +12,39 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class AnimalFactory extends Factory
 {
     /**
+     * @var list<string>
+     */
+    // TODO: Refactor to be the 'species' table and create associations
+    private array $petStoreAnimals = [
+        'Dog',
+        'Cat',
+        'Hamster',
+        'Guinea Pig',
+        'Rabbit',
+        'Gerbil',
+        'Mouse',
+        'Rat',
+        'Parakeet',
+        'Cockatiel',
+        'Finch',
+        'Canary',
+        'Goldfish',
+        'Betta',
+        'Guppy',
+        'Molly',
+        'Platy',
+        'Tetra',
+        'Angelfish',
+        'Corydoras',
+        'Leopard Gecko',
+        'Bearded Dragon',
+        'Corn Snake',
+        'Ball Python',
+        'Frog',
+        'Turtle',
+    ];
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -19,7 +52,14 @@ class AnimalFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'species' => $this->faker->randomElement($this->petStoreAnimals),
+            'breed' => $this->faker->word,
+            'age' => $this->faker->numberBetween(1, 20),
+            'description' => $this->faker->sentence,
+            'price' => $this->faker->randomFloat(2, 0, 1000),
+            'image' => 'https://placehold.co/600x400',
+            'available' => $this->faker->boolean,
         ];
     }
 }

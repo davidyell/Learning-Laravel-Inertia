@@ -15,10 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
+        $user = User::query()->where('email', 'admin@example.com')->first();
+
+        if ($user === null) {
+            User::factory()->create([
+                'name' => 'Admin User',
+                'email' => 'admin@example.com',
+                'password' => bcrypt('password'),
+            ]);
+        }
+
+        $this->call([
+            AnimalSeeder::class,
         ]);
     }
 }

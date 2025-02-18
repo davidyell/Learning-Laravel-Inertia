@@ -11,4 +11,16 @@ class Animal extends Model
 {
     /** @use HasFactory<\Database\Factories\AnimalFactory> */
     use HasFactory;
+
+    /** @var List<string> */
+    public $fillable = [
+        'name',
+        'age',
+        'species',
+        'breed',
+        'description',
+        'image',
+        'price',
+        'available',
+    ];
 }
