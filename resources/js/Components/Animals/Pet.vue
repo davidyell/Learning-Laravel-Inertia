@@ -1,8 +1,8 @@
 <script setup>
-import { defineProps, ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import EditPet from "./EditPet.vue";
+import { defineProps, ref, defineEmits } from "vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
+const emit = defineEmits(["editModal"]);
 const props = defineProps({
     animal: {
         type: Object,
@@ -60,8 +60,11 @@ const unavailableClass = ref("text-gray-400");
                     }}
                 </p>
             </div>
-
-            <EditPet :animal="animal" />
+            <div class="text-center mt-4" v-if="$page.props.auth.user.id">
+                <PrimaryButton @click="emit('editModal', animal.id)">
+                    Edit
+                </PrimaryButton>
+            </div>
         </div>
     </div>
 </template>
