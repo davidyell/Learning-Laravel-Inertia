@@ -1,27 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pet from "@/Components/Animals/Pet.vue";
 import { Head } from "@inertiajs/vue3";
-import { ref } from "vue";
 import Modal from "@/Components/Breeze/Modal.vue";
 import EditPet from "@/Components/Animals/EditPet.vue";
+import { PropType, ref } from "vue";
+import { Animal } from "@/interfaces/Animal";
 
 const props = defineProps({
     animals: {
-        type: Array,
+        type: Object as PropType<Animal[]>,
         required: true,
     },
 });
-const showModal = ref(false);
-const editedAnimal = ref(null);
+const showModal = ref<boolean>(false);
+const editedAnimal = ref<Animal | null>(null);
 
 const resetEditModal = () => {
     showModal.value = false;
     editedAnimal.value = null;
 };
-const openEditModal = (id) => {
+const openEditModal = (id: number) => {
     showModal.value = true;
-    editedAnimal.value = props.animals.find((a) => a.id === id);
+    editedAnimal.value = props.animals.find((a) => a.id === id) ?? null;
 };
 </script>
 
