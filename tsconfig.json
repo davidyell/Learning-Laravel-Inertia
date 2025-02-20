@@ -12,9 +12,9 @@
         }
     },
     "include": [
-        "resources/js/**/*.ts",
-        "resources/js/**/*.tsx",
-        "resources/js/**/*.vue",
-        "resources/js/breeze.d.ts"
+        "./resources/js/**/*.ts",
+        "./resources/js/**/*.tsx",
+        "./resources/js/**/*.vue",
+        "./resources/js/breeze.d.ts"
     ]
 }
