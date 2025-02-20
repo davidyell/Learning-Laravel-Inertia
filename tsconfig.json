@@ -15,6 +15,7 @@
         "./resources/js/**/*.ts",
         "./resources/js/**/*.tsx",
         "./resources/js/**/*.vue",
-        "./resources/js/breeze.d.ts"
-    ]
+        "./resources/js/types/shims-vue.d.ts"
+    ],
+    "exclude": ["node_modules"]
 }
