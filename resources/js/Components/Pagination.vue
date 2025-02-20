@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { Link } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
 import { LengthAwarePaginator } from '../interfaces/LengthAwarePaginator';
 
     defineProps<{
@@ -8,7 +8,7 @@ import { LengthAwarePaginator } from '../interfaces/LengthAwarePaginator';
 </script>
 
 <template>
-    <nav class="relative flex justify-center">
+    <nav class="relative flex justify-center pb-5">
         <template v-for="link in pagination.links" :key="link.label">
             <Link
                 preserve-scroll

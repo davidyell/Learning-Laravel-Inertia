@@ -8,6 +8,7 @@ import { ref } from "vue";
 import { Animal } from "@/interfaces/Animal";
 import Pagination from "@/Components/Pagination.vue";
 import { LengthAwarePaginator } from "../../interfaces/LengthAwarePaginator";
+import { route } from "ziggy-js";
 
 const props = defineProps<{
     animals: LengthAwarePaginator<Animal>,
