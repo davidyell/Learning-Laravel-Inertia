@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pet from "@/Components/Animals/Pet.vue";
 import { Head } from "@inertiajs/vue3";
 import { ref } from "vue";
-import Modal from "@/Components/Modal.vue";
+import Modal from "@/Components/Breeze/Modal.vue";
 import EditPet from "@/Components/Animals/EditPet.vue";
 
 const props = defineProps({

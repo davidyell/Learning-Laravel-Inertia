@@ -1,6 +1,6 @@
-<script setup>
-import { defineProps, ref, defineEmits } from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+<script setup lang="ts">
+import { ref } from "vue";
+import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 
 const emit = defineEmits(["editModal"]);
 const props = defineProps({

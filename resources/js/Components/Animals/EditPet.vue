@@ -1,11 +1,11 @@
-<script setup>
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+<script setup lang="ts">
+import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
-import InputError from "@/Components/InputError.vue";
-import TextInput from "@/Components/TextInput.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import TextArea from "@/Components/TextArea.vue";
-import Checkbox from "@/Components/Checkbox.vue";
+import InputError from "@/Components/Breeze/InputError.vue";
+import TextInput from "@/Components/Breeze/TextInput.vue";
+import InputLabel from "@/Components/Breeze/InputLabel.vue";
+import TextArea from "@/Components/Breeze/TextArea.vue";
+import Checkbox from "@/Components/Breeze/Checkbox.vue";
 
 const props = defineProps({
     animal: {
