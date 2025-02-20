@@ -8,16 +8,21 @@ use App\Models\Animal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AnimalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $queryBuilder = QueryBuilder::for(Animal::class)
+            ->allowedFilters('name', 'species', 'breed', 'available')
+            ->allowedSorts('name', 'age', 'species', 'breed', 'price', 'available');
+
         return Inertia::render('Animals/Index', [
-            'animals' => Animal::query()->paginate(),
+            'animals' => $queryBuilder->paginate($request->get('perPage', 15)),
         ]);
     }
 
