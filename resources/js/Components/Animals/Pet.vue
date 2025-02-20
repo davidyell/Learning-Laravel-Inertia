@@ -22,13 +22,13 @@ const unavailableClass = ref("text-gray-400");
             v-if="animal.available"
             class="bg-green-500 text-white px-2 py-3 rounded-tl-lg rounded-tr-lg w-full text-center"
         >
-            Adopt me today!
+            <div class="mb-3">Adopt me today!</div>
         </div>
         <div
             v-else
             class="bg-gray-300 text-gray-500 px-2 py-3 rounded-tl-lg rounded-tr-lg w-full text-center"
         >
-            Found a forever home!
+            <div class="mb-3">Found a forever home!</div>
         </div>
         <img
             :src="animal.image"
