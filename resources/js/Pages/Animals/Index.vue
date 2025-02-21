@@ -9,9 +9,12 @@ import { Animal } from "@/interfaces/Animal";
 import Pagination from "@/Components/Pagination.vue";
 import { LengthAwarePaginator } from "../../interfaces/LengthAwarePaginator";
 import { route } from "ziggy-js";
+import Filter from "@/Components/Animals/Filter.vue";
+import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
+import NavLink from "@/Components/Breeze/NavLink.vue";
 
 const props = defineProps<{
-    animals: LengthAwarePaginator<Animal>,
+    animals: LengthAwarePaginator<Animal>;
 }>();
 const showModal = ref<boolean>(false);
 const editedAnimal = ref<Animal | null>(null);
@@ -35,15 +38,15 @@ const openEditModal = (id: number) => {
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
                     Pets
                 </h2>
-                <a
-                    :href="route('animals.create')"
-                    class="text-sm/6 text-blue-600 hover:text-blue-900 px-3"
-                    >Add a new pet</a
-                >
+                <NavLink :href="route('animals.create')">
+                    Add a new pet
+                </NavLink>
             </div>
         </template>
 
         <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+            <Filter />
+
             <div class="grid grid-cols-3 gap-3">
                 <Pet
                     v-if="animals.data.length > 0"
@@ -52,11 +55,14 @@ const openEditModal = (id: number) => {
                     :animal="animal"
                     @edit-modal="openEditModal"
                 />
-                <p v-else>No pets found. Please create one. <br/><a
-                    :href="route('animals.create')"
-                    class="text-sm/6 text-blue-600 hover:text-blue-900 px-3"
-                    >Add a new pet</a
-                ></p>
+                <p v-else>
+                    No pets found. Would you like to
+                    <a
+                        :href="route('animals.create')"
+                        class="text-blue-600 hover:text-blue-900"
+                        >add a new pet</a
+                    >?
+                </p>
             </div>
         </div>
 
