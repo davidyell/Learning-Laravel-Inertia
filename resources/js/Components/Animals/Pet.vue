@@ -38,7 +38,7 @@ const unavailableClass = ref("text-gray-400");
 
         <div>
             <h2
-                class="text-lg font-semibold"
+                class="text-xl font-semibold"
                 :class="animal.available ? availableClass : unavailableClass"
             >
                 {{ animal.name }} ({{ animal.age }} years)
@@ -48,9 +48,9 @@ const unavailableClass = ref("text-gray-400");
                 class="text-sm"
                 :class="animal.available ? availableClass : unavailableClass"
             >
-                <p>{{ animal.species }}, {{ animal.breed }}</p>
-                <p>{{ animal.description }}</p>
-                <p v-if="animal.available">
+                <p class="text-lg">{{ animal.species }}, {{ animal.breed }}</p>
+                <p class="my-2">{{ animal.description }}</p>
+                <p v-if="animal.available" class="text-lg">
                     &pound;
                     {{
                         animal.price.toLocaleString("en-GB", {
