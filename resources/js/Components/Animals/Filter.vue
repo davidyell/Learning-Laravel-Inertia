@@ -76,7 +76,9 @@ watch(
                 v-model="filter.name"
             />
 
-            <label for="filter-species" class="mr-2">Species:</label>
+            <label for="filter-species" class="mr-2 text-sm text-gray-800"
+                >Species:</label
+            >
             <select
                 id="filter-species"
                 class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4"
@@ -102,7 +104,7 @@ watch(
                     class="form-checkbox text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     v-model="filter.available"
                 />
-                <span>Available only</span>
+                <span class="text-sm text-gray-800">Available only</span>
             </label>
 
             <DangerButton type="button" class="ml-auto" @click="resetFilter">
