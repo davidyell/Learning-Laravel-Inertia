@@ -56,9 +56,9 @@ class AnimalFactory extends Factory
             'species' => $this->faker->randomElement($this->petStoreAnimals),
             'breed' => $this->faker->word,
             'age' => $this->faker->numberBetween(1, 20),
-            'description' => $this->faker->sentence,
+            'description' => $this->faker->sentences(4, true),
             'price' => $this->faker->randomFloat(2, 0, 1000),
-            'image' => 'https://placehold.co/600x400',
+            'image' => 'https://placecats.com/400/260',
             'available' => $this->faker->boolean,
         ];
     }
