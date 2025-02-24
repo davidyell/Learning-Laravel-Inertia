@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Species;
-use Illuminate\Database\Seeder;
 use App\Models\Animal;
+use App\Models\Species;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Seeder;
 
 class AnimalSeeder extends Seeder
 {
