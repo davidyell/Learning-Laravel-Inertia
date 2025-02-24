@@ -8,6 +8,7 @@ use App\Models\Animal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class AnimalController extends Controller
@@ -18,13 +19,14 @@ class AnimalController extends Controller
     public function index(Request $request): Response
     {
         $queryBuilder = QueryBuilder::for(Animal::class)
-            ->allowedFilters('name', 'species', 'breed', 'available')
+            ->allowedFilters('name', AllowedFilter::belongsTo('species', 'species'), 'breed', 'available')
             ->allowedSorts('name', 'age', 'species', 'breed', 'price', 'available');
 
         return Inertia::render('Animals/Index', [
             'animals' => $queryBuilder
                 ->with('species')
                 ->paginate($request->get('perPage', 15)),
+            'species' => \App\Models\Species::orderBy('name')->get(),
         ]);
     }
 
