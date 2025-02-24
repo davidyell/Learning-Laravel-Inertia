@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Pet from "@/Components/Animals/Pet.vue";
+import PetCard from "@/Components/Animals/PetCard.vue";
 import { Head } from "@inertiajs/vue3";
 import Modal from "@/Components/Breeze/Modal.vue";
 import { ref } from "vue";
@@ -8,7 +8,7 @@ import { Animal } from "@/interfaces/Animal";
 import Pagination from "@/Components/Pagination.vue";
 import { LengthAwarePaginator } from "../../interfaces/LengthAwarePaginator";
 import { route } from "ziggy-js";
-import Filter from "@/Components/Animals/Filter.vue";
+import FilterPets from "@/Components/Animals/FilterPets.vue";
 import NavLink from "@/Components/Breeze/NavLink.vue";
 import { Species } from "@/interfaces/Species";
 import PetForm from "@/Components/Animals/PetForm.vue";
@@ -46,10 +46,10 @@ const openEditModal = (id: number) => {
         </template>
 
         <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-            <Filter :species="species" />
+            <FilterPets :species="species" />
 
             <div class="grid grid-cols-3 gap-3">
-                <Pet
+                <PetCard
                     v-if="animals.data.length > 0"
                     v-for="animal in animals.data"
                     :key="animal.id"
