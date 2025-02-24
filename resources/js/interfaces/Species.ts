@@ -6,5 +6,4 @@ export interface Species {
     created_at: string | null;
     updated_at: string | null;
     animals?: Animal[];
-    animals_count?: number;
 }

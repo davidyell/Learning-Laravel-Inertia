@@ -3,7 +3,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pet from "@/Components/Animals/Pet.vue";
 import { Head } from "@inertiajs/vue3";
 import Modal from "@/Components/Breeze/Modal.vue";
-import EditPet from "@/Components/Animals/EditPet.vue";
 import { ref } from "vue";
 import { Animal } from "@/interfaces/Animal";
 import Pagination from "@/Components/Pagination.vue";
@@ -12,6 +11,7 @@ import { route } from "ziggy-js";
 import Filter from "@/Components/Animals/Filter.vue";
 import NavLink from "@/Components/Breeze/NavLink.vue";
 import { Species } from "@/interfaces/Species";
+import PetForm from "@/Components/Animals/PetForm.vue";
 
 const props = defineProps<{
     animals: LengthAwarePaginator<Animal>;
@@ -71,8 +71,9 @@ const openEditModal = (id: number) => {
 
         <Modal :show="showModal" @close="resetEditModal">
             <div class="m-4">
-                <EditPet
+                <PetForm
                     v-if="editedAnimal !== null"
+                    :method="'edit'"
                     :animal="editedAnimal"
                     :species="species"
                     :isModal="true"

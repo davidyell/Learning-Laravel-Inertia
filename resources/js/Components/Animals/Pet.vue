@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
+import { Animal } from "@/interfaces/Animal";
 
 const emit = defineEmits(["editModal"]);
-const props = defineProps({
-    animal: {
-        type: Object,
-        required: true,
-    },
-});
+defineProps<{ animal: Animal }>();
 const availableClass = ref("text-gray-800");
 const unavailableClass = ref("text-gray-400");
 </script>
@@ -31,7 +27,7 @@ const unavailableClass = ref("text-gray-400");
             <div class="mb-3">Found a forever home!</div>
         </div>
         <img
-            :src="animal.image"
+            :src="animal.image ?? 'https://placecats.com/400/260'"
             :alt="animal.name"
             class="rounded-lg mb-3 -mt-4"
         />
