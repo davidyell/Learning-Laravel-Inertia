@@ -48,7 +48,9 @@ const unavailableClass = ref("text-gray-400");
                 class="text-sm"
                 :class="animal.available ? availableClass : unavailableClass"
             >
-                <p class="text-lg">{{ animal.species }}, {{ animal.breed }}</p>
+                <p class="text-lg">
+                    {{ animal.species.name }}, {{ animal.breed }}
+                </p>
                 <p class="my-2">{{ animal.description }}</p>
                 <p v-if="animal.available" class="text-lg">
                     &pound;
