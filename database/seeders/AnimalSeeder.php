@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Animal;
+use App\Models\Species;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class AnimalSeeder extends Seeder
@@ -13,6 +16,11 @@ class AnimalSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Animal::factory(50)->create();
+        $species = Species::all();
+
+        // Use the state with the a sequence to ensure that each animal has a different species_id
+        Animal::factory(50)->state(new Sequence(
+            fn () => ['species_id' => $species->random()->id]
+        ))->create();
     }
 }

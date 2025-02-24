@@ -1,7 +1,9 @@
+import { Species } from "./Species";
+
 export interface Animal {
     id: number;
     name: string;
-    species: string;
+    species: Species;
     breed?: string | null;
     age?: number | null;
     description?: string | null;

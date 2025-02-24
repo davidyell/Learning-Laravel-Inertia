@@ -10,11 +10,12 @@ import Pagination from "@/Components/Pagination.vue";
 import { LengthAwarePaginator } from "../../interfaces/LengthAwarePaginator";
 import { route } from "ziggy-js";
 import Filter from "@/Components/Animals/Filter.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 import NavLink from "@/Components/Breeze/NavLink.vue";
+import { Species } from "@/interfaces/Species";
 
 const props = defineProps<{
     animals: LengthAwarePaginator<Animal>;
+    species: Species[];
 }>();
 const showModal = ref<boolean>(false);
 const editedAnimal = ref<Animal | null>(null);
@@ -45,7 +46,7 @@ const openEditModal = (id: number) => {
         </template>
 
         <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-            <Filter />
+            <Filter :species="species" />
 
             <div class="grid grid-cols-3 gap-3">
                 <Pet
@@ -73,6 +74,7 @@ const openEditModal = (id: number) => {
                 <EditPet
                     v-if="editedAnimal !== null"
                     :animal="editedAnimal"
+                    :species="species"
                     :isModal="true"
                     @close="resetEditModal"
                 />

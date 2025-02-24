@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { router, usePage } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import { route } from "ziggy-js";
 import _ from "lodash";
 import DangerButton from "../Breeze/DangerButton.vue";
+import { Species } from "@/interfaces/Species";
+
+defineProps<{
+    species: Species[];
+}>();
 
 const query = new URLSearchParams(window.location.search);
 
@@ -13,6 +18,19 @@ const filter = ref({
     breed: query.get("filter[breed]") || "",
     available: query.get("filter[available]") === "true" || false,
 });
+
+const applyFilter = () => {
+    router.get(
+        route("animals.index"),
+        {
+            "filter[name]": filter.value.name,
+            "filter[species]": filter.value.species,
+            "filter[breed]": filter.value.breed,
+            "filter[available]": filter.value.available,
+        },
+        { preserveState: true, preserveScroll: true }
+    );
+};
 
 const resetFilter = () => {
     filter.value.name = "";
@@ -65,7 +83,7 @@ watch(
 );
 </script>
 <template>
-    <form @submit.prevent="filter">
+    <form @submit.prevent="applyFilter">
         <div
             class="flex justify-start items-center bg-white rounded-lg shadow p-4 mb-4"
         >
@@ -84,11 +102,10 @@ watch(
                 class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4"
                 v-model="filter.species"
             >
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
-                <option value="bird">Bird</option>
-                <option value="fish">Fish</option>
-                <option value="other">Other</option>
+                <option value="">All</option>
+                <option v-for="s in species" :key="s.id" :value="s.id">
+                    {{ s.name }}
+                </option>
             </select>
 
             <input

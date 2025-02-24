@@ -6,19 +6,20 @@ import TextInput from "@/Components/Breeze/TextInput.vue";
 import InputLabel from "@/Components/Breeze/InputLabel.vue";
 import TextArea from "@/Components/Breeze/TextArea.vue";
 import Checkbox from "@/Components/Breeze/Checkbox.vue";
+import Animal from "@/interfaces/Animal.vue";
+import Species from "@/interfaces/Species.vue";
+import { route } from "ziggy-js";
 
-const props = defineProps({
-    animal: {
-        type: Object,
-        required: true,
-    },
-    isModal: {
-        type: Boolean,
-        default: false,
-    },
-});
+const props = defineProps<{
+    animal: Animal;
+    species: Species[];
+    isModal: boolean;
+}>();
 const emit = defineEmits(["close"]);
-const form = useForm(props.animal);
+const form = useForm({
+    ...props.animal,
+    species_id: props.animal.species.id,
+});
 </script>
 
 <template>
@@ -34,7 +35,7 @@ const form = useForm(props.animal);
                 <h2
                     class="text-base/7 font-semibold text-gray-900 border-b-1 mb-4"
                 >
-                    Edit {{ animal.name }} the {{ animal.species }}
+                    Edit {{ animal.name }} the {{ animal.species.name }}
                 </h2>
 
                 <div class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -73,14 +74,22 @@ const form = useForm(props.animal);
                     <div class="col-span-3">
                         <InputLabel value="Species" />
                         <div class="mt-2">
-                            <TextInput
-                                v-model="form.species"
-                                label="Species"
-                                class="block w-full min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
-                            ></TextInput>
+                            <select
+                                id="filter-species"
+                                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4 w-full"
+                                v-model="form.species_id"
+                            >
+                                <option
+                                    v-for="s in species"
+                                    :key="s.id"
+                                    :value="s.id"
+                                >
+                                    {{ s.name }}
+                                </option>
+                            </select>
 
                             <InputError
-                                :message="form.errors.species"
+                                :message="form.errors.species_id"
                                 class="mt-2"
                             />
                         </div>
