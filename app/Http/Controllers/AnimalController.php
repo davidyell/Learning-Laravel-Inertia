@@ -71,7 +71,7 @@ class AnimalController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'age' => 'required|integer|min:0',
-            'species' => 'required|string|max:255',
+            'species_id' => 'required|exists:species,id',
             'breed' => 'required|string|max:255',
             'description' => 'required|string|max:65535',
             'price' => 'required|numeric|min:0',

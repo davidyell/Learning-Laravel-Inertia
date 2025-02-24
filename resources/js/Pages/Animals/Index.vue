@@ -74,6 +74,7 @@ const openEditModal = (id: number) => {
                 <EditPet
                     v-if="editedAnimal !== null"
                     :animal="editedAnimal"
+                    :species="species"
                     :isModal="true"
                     @close="resetEditModal"
                 />

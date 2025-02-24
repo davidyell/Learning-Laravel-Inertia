@@ -19,6 +19,19 @@ const filter = ref({
     available: query.get("filter[available]") === "true" || false,
 });
 
+const applyFilter = () => {
+    router.get(
+        route("animals.index"),
+        {
+            "filter[name]": filter.value.name,
+            "filter[species]": filter.value.species,
+            "filter[breed]": filter.value.breed,
+            "filter[available]": filter.value.available,
+        },
+        { preserveState: true, preserveScroll: true }
+    );
+};
+
 const resetFilter = () => {
     filter.value.name = "";
     filter.value.species = "";
@@ -70,7 +83,7 @@ watch(
 );
 </script>
 <template>
-    <form @submit.prevent="filter">
+    <form @submit.prevent="applyFilter">
         <div
             class="flex justify-start items-center bg-white rounded-lg shadow p-4 mb-4"
         >

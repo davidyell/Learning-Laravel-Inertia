@@ -32,7 +32,7 @@ class Animal extends Model
     public $fillable = [
         'name',
         'age',
-        'species',
+        'species_id',
         'breed',
         'description',
         'image',
