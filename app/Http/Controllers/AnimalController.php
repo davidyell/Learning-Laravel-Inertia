@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAnimalRequest;
 use App\Models\Animal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -35,50 +36,30 @@ class AnimalController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Animals/Create');
+        return Inertia::render('Animals/Create', [
+            'animal' => new Animal,
+            'species' => \App\Models\Species::orderBy('name')->get(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAnimalRequest $request)
     {
-        //
-    }
+        $animal = new Animal;
+        $animal->fill($request->validated());
+        $animal->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Animal $animal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Animal $animal)
-    {
-        //
+        return redirect(route('animals.index'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Animal $animal)
+    public function update(StoreAnimalRequest $request, Animal $animal)
     {
-        // TODO: Refactor this to a form request to re-use for Create and Update
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'age' => 'required|integer|min:0',
-            'species_id' => 'required|exists:species,id',
-            'breed' => 'required|string|max:255',
-            'description' => 'required|string|max:65535',
-            'price' => 'required|numeric|min:0',
-            'available' => 'required|boolean',
-        ]);
-
-        $animal->update($validated);
+        $animal->update($request->validated());
 
         return redirect(route('animals.index'));
     }

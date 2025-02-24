@@ -39,7 +39,10 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                                 <NavLink
                                     :href="route('animals.index')"
-                                    :active="route().current('animals.index')"
+                                    :active="
+                                        route().current('animals.index') ||
+                                        route().current('animals.create')
+                                    "
                                 >
                                     Pets
                                 </NavLink>
@@ -152,7 +155,10 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('animals.index')"
-                            :active="route().current('animals.index')"
+                            :active="
+                                route().current('animals.index') ||
+                                route().current('animals.create')
+                            "
                         >
                             Pets
                         </ResponsiveNavLink>

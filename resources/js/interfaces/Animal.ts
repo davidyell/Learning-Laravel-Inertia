@@ -4,10 +4,10 @@ export interface Animal {
     id: number;
     name: string;
     species: Species;
-    breed?: string | null;
-    age?: number | null;
+    breed: string;
+    age: number;
     description?: string | null;
-    price?: number | null;
+    price: number;
     image?: string | null;
     available: boolean;
     created_at?: string | null;

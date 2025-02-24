@@ -4,7 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "type-check": "tsc --noEmit"
+        "validate": "tsc --noEmit --skipLibCheck"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^2.0.0",

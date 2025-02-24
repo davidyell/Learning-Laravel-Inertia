@@ -6,36 +6,55 @@ import TextInput from "@/Components/Breeze/TextInput.vue";
 import InputLabel from "@/Components/Breeze/InputLabel.vue";
 import TextArea from "@/Components/Breeze/TextArea.vue";
 import Checkbox from "@/Components/Breeze/Checkbox.vue";
-import Animal from "@/interfaces/Animal.vue";
-import Species from "@/interfaces/Species.vue";
+import { Animal } from "@/interfaces/Animal";
+import { Species } from "@/interfaces/Species";
 import { route } from "ziggy-js";
 
 const props = defineProps<{
+    method: string;
     animal: Animal;
     species: Species[];
     isModal: boolean;
 }>();
 const emit = defineEmits(["close"]);
 const form = useForm({
-    ...props.animal,
-    species_id: props.animal.species.id,
+    name: props.animal?.name ?? "",
+    age: props.animal?.age ?? "",
+    breed: props.animal?.breed ?? "",
+    description: props.animal?.description ?? "",
+    price: props.animal?.price ?? "",
+    available: props.animal?.available ?? false,
+    species_id: props.animal?.species?.id ?? undefined,
 });
 </script>
 
 <template>
     <form
         @submit.prevent="
-            form.put(route('animals.update', animal.id), {
-                onSuccess: () => (emit('close'), form.reset()),
-            })
+            if (props.method === 'create') {
+                form.post(route('animals.store'), {
+                    onSuccess: () => (emit('close'), form.reset()),
+                });
+            } else {
+                form.put(route('animals.update', props.animal.id), {
+                    onSuccess: () => (emit('close'), form.reset()),
+                });
+            }
         "
     >
         <div class="space-y-12">
             <div class="pb-12">
                 <h2
+                    v-if="props.method === 'edit'"
                     class="text-base/7 font-semibold text-gray-900 border-b-1 mb-4"
                 >
                     Edit {{ animal.name }} the {{ animal.species.name }}
+                </h2>
+                <h2
+                    v-else
+                    class="text-base/7 font-semibold text-gray-900 border-b-1 mb-4"
+                >
+                    Create new pet
                 </h2>
 
                 <div class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-6">
