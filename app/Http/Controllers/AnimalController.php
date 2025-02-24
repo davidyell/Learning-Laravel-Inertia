@@ -22,7 +22,9 @@ class AnimalController extends Controller
             ->allowedSorts('name', 'age', 'species', 'breed', 'price', 'available');
 
         return Inertia::render('Animals/Index', [
-            'animals' => $queryBuilder->paginate($request->get('perPage', 15)),
+            'animals' => $queryBuilder
+                ->with('species')
+                ->paginate($request->get('perPage', 15)),
         ]);
     }
 

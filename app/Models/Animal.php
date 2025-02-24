@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Animal
@@ -38,4 +39,14 @@ class Animal extends Model
         'price',
         'available',
     ];
+
+    /**
+     * Get the species of the animal.
+     *
+     * @return BelongsTo<Species, $this>
+     */
+    public function species(): BelongsTo
+    {
+        return $this->belongsTo(Species::class);
+    }
 }
