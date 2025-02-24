@@ -52,7 +52,7 @@ class AnimalFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->firstName(),
             'species' => $this->faker->randomElement($this->petStoreAnimals),
             'breed' => $this->faker->word,
             'age' => $this->faker->numberBetween(1, 20),
