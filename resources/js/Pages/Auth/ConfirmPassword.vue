@@ -1,17 +1,18 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/Breeze/InputError.vue';
-import InputLabel from '@/Components/Breeze/InputLabel.vue';
-import PrimaryButton from '@/Components/Breeze/PrimaryButton.vue';
-import TextInput from '@/Components/Breeze/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import InputError from "@/Components/Breeze/InputError.vue";
+import InputLabel from "@/Components/Breeze/InputLabel.vue";
+import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
+import TextInput from "@/Components/Breeze/TextInput.vue";
+import { Head, useForm } from "@inertiajs/vue3";
+import { route } from "@/ziggy";
 
 const form = useForm({
-    password: '',
+    password: "",
 });
 
 const submit = () => {
-    form.post(route('password.confirm'), {
+    form.post(route("password.confirm"), {
         onFinish: () => form.reset(),
     });
 };

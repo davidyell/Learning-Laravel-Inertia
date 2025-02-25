@@ -7,6 +7,7 @@ import SecondaryButton from "@/Components/Breeze/SecondaryButton.vue";
 import TextInput from "@/Components/Breeze/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { nextTick, ref } from "vue";
+import { route } from "@/ziggy";
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);

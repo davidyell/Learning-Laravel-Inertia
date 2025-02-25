@@ -1,10 +1,11 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/Breeze/InputError.vue';
-import InputLabel from '@/Components/Breeze/InputLabel.vue';
-import PrimaryButton from '@/Components/Breeze/PrimaryButton.vue';
-import TextInput from '@/Components/Breeze/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import InputError from "@/Components/Breeze/InputError.vue";
+import InputLabel from "@/Components/Breeze/InputLabel.vue";
+import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
+import TextInput from "@/Components/Breeze/TextInput.vue";
+import { Head, useForm } from "@inertiajs/vue3";
+import { route } from "@/ziggy";
 
 const props = defineProps({
     email: {
@@ -20,13 +21,13 @@ const props = defineProps({
 const form = useForm({
     token: props.token,
     email: props.email,
-    password: '',
-    password_confirmation: '',
+    password: "",
+    password_confirmation: "",
 });
 
 const submit = () => {
-    form.post(route('password.store'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+    form.post(route("password.store"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
 </script>
