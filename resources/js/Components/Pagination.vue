@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/vue3";
 import { LengthAwarePaginator } from "../interfaces/LengthAwarePaginator";
 
 defineProps<{
-    pagination: LengthAwarePaginator<any>;
+    pagination: LengthAwarePaginator<unknown>;
 }>();
 </script>
 

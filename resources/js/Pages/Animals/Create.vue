@@ -10,7 +10,7 @@ const props = defineProps<{
     species: Species[];
 }>();
 
-const form = useForm({
+useForm({
     name: "",
 });
 </script>

@@ -48,23 +48,22 @@ const openEditModal = (id: number) => {
         <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
             <FilterPets :species="species" />
 
-            <div class="grid grid-cols-3 gap-3">
+            <div class="grid grid-cols-3 gap-3" v-if="animals.data.length > 0">
                 <PetCard
-                    v-if="animals.data.length > 0"
                     v-for="animal in animals.data"
                     :key="animal.id"
                     :animal="animal"
                     @edit-modal="openEditModal"
                 />
-                <p v-else>
-                    No pets found. Would you like to
-                    <a
-                        :href="route('animals.create')"
-                        class="text-blue-600 hover:text-blue-900"
-                        >add a new pet</a
-                    >?
-                </p>
             </div>
+            <p v-else>
+                No pets found. Would you like to
+                <a
+                    :href="route('animals.create')"
+                    class="text-blue-600 hover:text-blue-900"
+                    >add a new pet</a
+                >?
+            </p>
         </div>
 
         <Pagination :pagination="animals" />
