@@ -6,12 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAnimalRequest;
 use App\Models\Animal;
+use App\Models\Species;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use \App\Models\Species;
 
 class AnimalController extends Controller
 {
@@ -25,7 +25,8 @@ class AnimalController extends Controller
             ->allowedSorts('updated_at')
             ->defaultSort('name')
             ->with('species')
-            ->paginate($request->get('perPage', 15));
+            ->paginate($request->get('perPage', 15))
+            ->withQueryString();
 
         return Inertia::render('Animals/Index', [
             'animals' => $animals,
