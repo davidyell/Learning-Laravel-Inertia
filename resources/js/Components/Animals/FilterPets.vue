@@ -5,6 +5,7 @@ import { route } from "ziggy-js";
 import _ from "lodash";
 import DangerButton from "../Breeze/DangerButton.vue";
 import { Species } from "@/interfaces/Species";
+import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/vue/24/outline";
 
 defineProps<{
     species: Species[];
@@ -18,6 +19,19 @@ const filter = ref({
     breed: query.get("filter[breed]") || "",
     available: query.get("filter[available]") === "true" || false,
 });
+
+const sortTerm = ref(query.get("sort") || "name");
+
+const applySort = () => {
+    router.get(
+        route("animals.index"),
+        { sort: sortTerm.value.includes("-") ? "updated_at" : "-updated_at" },
+        { preserveState: true, preserveScroll: true }
+    );
+    sortTerm.value = sortTerm.value.includes("-")
+        ? "updated_at"
+        : "-updated_at";
+};
 
 const applyFilter = () => {
     router.get(
@@ -123,6 +137,26 @@ watch(
                 />
                 <span class="text-sm text-gray-800">Available only</span>
             </label>
+
+            <a
+                @click.prevent="applySort"
+                :href="
+                    route('animals.index', {
+                        sort: sortTerm?.value?.includes('-')
+                            ? '-updated_at'
+                            : 'updated_at',
+                    })
+                "
+                class="ml-4 text-sm text-gray-800"
+            >
+                <span v-if="sortTerm?.value?.includes('-')">
+                    <ArrowUpIcon class="h-4 w-4 inline-block" /> Sort by oldest
+                </span>
+                <span v-else>
+                    <ArrowDownIcon class="h-4 w-4 inline-block" /> Sort by
+                    recent
+                </span>
+            </a>
 
             <DangerButton type="button" class="ml-auto" @click="resetFilter">
                 Reset

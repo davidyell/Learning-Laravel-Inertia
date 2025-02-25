@@ -2,6 +2,10 @@
 import { ref } from "vue";
 import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 import { Animal } from "@/interfaces/Animal";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const emit = defineEmits(["editModal"]);
 defineProps<{ animal: Animal }>();
@@ -62,6 +66,9 @@ const unavailableClass = ref("text-gray-400");
                 <PrimaryButton @click="emit('editModal', animal.id)">
                     Edit
                 </PrimaryButton>
+                <p class="my-2 text-sm text-gray-500">
+                    Last updated {{ dayjs(animal.updated_at).fromNow() }}
+                </p>
             </div>
         </div>
     </div>
