@@ -5,7 +5,7 @@ import InputLabel from "@/Components/Breeze/InputLabel.vue";
 import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 import TextInput from "@/Components/Breeze/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import { route } from "@/ziggy";
+import { route } from "ziggy-js";
 
 const form = useForm({
     name: "",

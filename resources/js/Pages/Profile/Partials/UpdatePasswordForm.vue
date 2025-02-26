@@ -5,7 +5,7 @@ import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 import TextInput from "@/Components/Breeze/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
-import { route } from "@/ziggy";
+import { route } from "ziggy-js";
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
