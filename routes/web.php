@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/pets', [PetsController::class, 'index'])->name('pets.index');
+Route::get('/rescue', static fn () => Inertia::render('Rescue', ['appName' => config('app.name')]))->name('page.rescue');
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 

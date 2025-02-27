@@ -10,18 +10,12 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <style>
-        .gradient {
-            background: linear-gradient(90deg,rgb(199, 51, 213) 0%,rgb(134, 81, 218) 100%);
-        }
-        </style>
-
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body class="leading-normal tracking-normal text-white gradient">
+    <body class="leading-normal tracking-normal brand-gradient">
         @inertia
     </body>
 </html>

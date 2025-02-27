@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PetsController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        //
+        return Inertia::render('Pets/Index', ['appName' => config('app.name')]);
     }
 
     // Show the form for creating a new resource.

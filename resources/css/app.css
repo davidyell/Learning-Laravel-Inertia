@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.brand-gradient {
+    background: linear-gradient(
+        90deg,
+        rgb(214, 121, 223) 0%,
+        rgb(134, 81, 218) 100%
+    );
+}
