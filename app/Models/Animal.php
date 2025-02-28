@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * Class Animal
@@ -48,5 +52,18 @@ class Animal extends Model
     public function species(): BelongsTo
     {
         return $this->belongsTo(Species::class);
+    }
+
+    public function scopeWithFilterAndSort(Builder|Relation|string $query): QueryBuilder
+    {
+        return QueryBuilder::for($query)
+            ->allowedFilters('name', AllowedFilter::belongsTo('species', 'species'), 'breed', 'available')
+            ->allowedSorts('updated_at')
+            ->defaultSort('name');
+    }
+
+    public function scopeWithSpecies(Builder $query)
+    {
+        return $query->with('species');
     }
 }
