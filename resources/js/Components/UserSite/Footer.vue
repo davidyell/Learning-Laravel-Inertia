@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import ApplicationLogo from "@/Components/Breeze/ApplicationLogo.vue";
-
-defineProps<{
-    appName: string;
-}>();
 </script>
 
 <template>

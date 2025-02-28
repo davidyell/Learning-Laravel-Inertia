@@ -185,7 +185,7 @@ defineProps({
                 <div
                     class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
                 >
-                    <div class="flex items-center justify-start">
+                    <div class="flex items-center justify-center">
                         <button
                             @click.prevent="router.get(route('page.rescue'))"
                             class="mx-auto lg:mx-0 hover:underline brand-gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
@@ -259,9 +259,9 @@ defineProps({
                 <div
                     class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6"
                 >
-                    <div class="flex items-center justify-end">
+                    <div class="flex items-center justify-center">
                         <button
-                            @click.prevent="router(route('pets.index'))"
+                            @click.prevent="router.get(route('pets.index'))"
                             class="mx-auto lg:mx-0 hover:underline brand-gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
                         >
                             Adopt a pet
@@ -328,5 +328,5 @@ defineProps({
             Donate today!
         </button>
     </section>
-    <Footer :appName="appName" />
+    <Footer />
 </template>

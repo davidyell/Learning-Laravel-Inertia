@@ -2,10 +2,6 @@
 import ApplicationLogo from "@/Components/Breeze/ApplicationLogo.vue";
 import { route } from "ziggy-js";
 import { Link, router } from "@inertiajs/vue3";
-
-defineProps<{
-    appName: string;
-}>();
 </script>
 
 <template>
