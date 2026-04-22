@@ -1,5 +1,5 @@
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 import InputError from "@/Components/Breeze/InputError.vue";
 import InputLabel from "@/Components/Breeze/InputLabel.vue";
 import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
@@ -33,7 +33,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthLayout>
         <Head title="Reset Password" />
 
         <form @submit.prevent="submit">
@@ -98,5 +98,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-    </GuestLayout>
+    </AuthLayout>
 </template>

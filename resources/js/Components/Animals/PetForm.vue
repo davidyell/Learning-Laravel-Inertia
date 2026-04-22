@@ -6,8 +6,8 @@ import TextInput from "@/Components/Breeze/TextInput.vue";
 import InputLabel from "@/Components/Breeze/InputLabel.vue";
 import TextArea from "@/Components/Breeze/TextArea.vue";
 import Checkbox from "@/Components/Breeze/Checkbox.vue";
-import { Animal } from "@/interfaces/Animal";
-import { Species } from "@/interfaces/Species";
+import { Animal } from "@/Interfaces/Animal";
+import { Species } from "@/Interfaces/Species";
 import { route } from "ziggy-js";
 
 const props = defineProps<{

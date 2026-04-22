@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Species;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,9 +25,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call([
+            UserSeeder::class,
+
             // Seed species first, so the animal.species_id foreign key constraint is satisfied
             SpeciesSeeder::class,
             AnimalSeeder::class,
+            AdoptionsSeeder::class
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <script setup>
 import Checkbox from "@/Components/Breeze/Checkbox.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 import InputError from "@/Components/Breeze/InputError.vue";
 import InputLabel from "@/Components/Breeze/InputLabel.vue";
 import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
@@ -31,7 +31,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthLayout>
         <Head title="Log in" />
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
@@ -95,5 +95,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-    </GuestLayout>
+    </AuthLayout>
 </template>

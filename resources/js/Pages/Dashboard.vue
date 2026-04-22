@@ -1,6 +1,14 @@
-<script setup>
+<script setup lang="ts">
+import { useAuth } from '@/Composables/useAuth';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
+
+const { user } = useAuth();
+
+defineProps<{
+    petCount: number,
+    petsAvailable: number
+}>()
 </script>
 
 <template>
@@ -17,29 +25,26 @@ import { Head } from "@inertiajs/vue3";
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        Welcome back {{ $page.props.auth.user.name }}!
+                        Welcome back {{ user!.name }}!
                     </div>
 
                     <div class="flex justify-center justify-around p-6">
                         <div class="text-center">
                             <h3>Pet count</h3>
                             <p class="text-4xl font-semibold text-gray-900">
-                                {{ $page.props.petCount }}
+                                {{ petCount }}
                             </p>
                         </div>
                         <div class="text-center">
                             <h3>Pets available</h3>
                             <p class="text-4xl font-semibold text-gray-900">
-                                {{ $page.props.petsAvailable }}
+                                {{ petsAvailable }}
                             </p>
                         </div>
                         <div class="text-center">
                             <h3>Pets adopted</h3>
                             <p class="text-4xl font-semibold text-gray-900">
-                                {{
-                                    $page.props.petCount -
-                                    $page.props.petsAvailable
-                                }}
+                                {{ petCount -petsAvailable }}
                             </p>
                         </div>
                     </div>

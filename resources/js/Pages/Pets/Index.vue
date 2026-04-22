@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
-import Navigation from "@/Components/UserSite/Navigation.vue";
-import Footer from "@/Components/UserSite/Footer.vue";
-import { LengthAwarePaginator } from "@/interfaces/LengthAwarePaginator";
-import { Animal } from "@/interfaces/Animal";
-import { Species } from "@/interfaces/Species";
+import PublicLayout from "@/Layouts/PublicLayout.vue";
+import { LengthAwarePaginator } from "@/Interfaces/LengthAwarePaginator";
+import { Animal } from "@/Interfaces/Animal";
+import { Species } from "@/Interfaces/Species";
+import PetCard from '@/Components/Animals/PetCard.vue';
+import FilterPets from "@/Components/Animals/FilterPets.vue";
 
 defineProps<{
-    appName: string;
     canLogin: boolean;
     animals: LengthAwarePaginator<Animal>;
     species: Species[];
@@ -15,21 +14,17 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <PublicLayout title="Adopt A Pet">
+        <h1 class="text-xl text-gray-800">The Adopt A Pet Page</h1>
 
-    <Navigation :appName="appName" />
+        <FilterPets :species="species" route-name="pets.index"/>
 
-    <div class="pt-24">
-        <div class="container px-3 mx-auto">
-            <section class="bg-white border-b p-8">
-                <h1 class="text-xl text-gray-800">The Adopt A Pet Page</h1>
-
-                <p v-for="animal in animals.data" :key="animal.id">
-                    {{ animal.name }}
-                </p>
-            </section>
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-3 items-center">
+            <div v-for="animal in animals.data" :key="animal.id">
+                <a :href="`/pets/${animal.id}`" :title="`View ${animal.name}`">
+                    <PetCard :animal="animal" />
+                </a>
+            </div>
         </div>
-    </div>
-
-    <Footer />
+    </PublicLayout>
 </template>

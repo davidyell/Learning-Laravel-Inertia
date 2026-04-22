@@ -3,13 +3,17 @@ import { router } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 import { route } from "ziggy-js";
 import _ from "lodash";
-import DangerButton from "../Breeze/DangerButton.vue";
-import { Species } from "@/interfaces/Species";
+import { Species } from "@/Interfaces/Species";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/vue/24/outline";
+import SecondaryButton from '@/Components/Breeze/SecondaryButton.vue';
+import { useAuth } from '@/Composables/useAuth';
 
-defineProps<{
+const props = defineProps<{
     species: Species[];
+    routeName?: string;
 }>();
+
+const { isAuthenticated } = useAuth();
 
 const query = new URLSearchParams(window.location.search);
 
@@ -31,11 +35,13 @@ const applySortAndFilter = () => {
     query.set("filter[name]", filter.value.name);
     query.set("filter[species]", filter.value.species);
     query.set("filter[breed]", filter.value.breed);
-    query.set("filter[available]", filter.value.available);
+    if (isAuthenticated.value) {
+        query.set("filter[available]", filter.value.available);
+    }
 
     const queryParams = Object.fromEntries(query.entries());
 
-    router.get(route("animals.index"), queryParams, {
+    router.get(route(props.routeName ?? "pets.index"), queryParams, {
         preserveState: true,
         preserveScroll: true,
     });
@@ -48,7 +54,7 @@ const resetFilter = () => {
     filter.value.species = "";
     filter.value.breed = "";
     filter.value.available = false;
-    sortTerm.value = "name";
+    sortTerm.value = "updated_at";
 };
 
 watch(
@@ -94,9 +100,7 @@ watch(
                 v-model="filter.name"
             />
 
-            <label for="filter-species" class="mr-2 text-sm text-gray-800"
-                >Species:</label
-            >
+            <label for="filter-species" class="mr-2 text-sm text-gray-800">Species:</label>
             <select
                 id="filter-species"
                 class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4"
@@ -115,7 +119,7 @@ watch(
                 v-model="filter.breed"
             />
 
-            <label class="flex items-center space-x-2">
+            <label class="flex items-center space-x-2" v-if="isAuthenticated">
                 <input
                     type="checkbox"
                     class="form-checkbox text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -127,7 +131,7 @@ watch(
             <a
                 @click.prevent="applySortAndFilter"
                 :href="
-                    route('animals.index', {
+                    route('pets.index', {
                         sort: sortTerm?.includes('-')
                             ? '-updated_at'
                             : 'updated_at',
@@ -144,9 +148,9 @@ watch(
                 </span>
             </a>
 
-            <DangerButton type="button" class="ml-auto" @click="resetFilter">
+            <SecondaryButton type="button" class="ml-auto" @click="resetFilter">
                 Reset
-            </DangerButton>
+            </SecondaryButton>
         </div>
     </form>
 </template>

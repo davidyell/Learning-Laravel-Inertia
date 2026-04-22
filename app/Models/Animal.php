@@ -66,4 +66,9 @@ class Animal extends Model
     {
         return $query->with('species');
     }
+
+    public function scopeIsAvailable(Builder $query): Builder
+    {
+        return $query->where('available', true);
+    }
 }

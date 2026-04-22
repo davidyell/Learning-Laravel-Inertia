@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
-import { LengthAwarePaginator } from "../interfaces/LengthAwarePaginator";
+import { LengthAwarePaginator } from "../Interfaces/LengthAwarePaginator";
 
 defineProps<{
     pagination: LengthAwarePaginator<unknown>;

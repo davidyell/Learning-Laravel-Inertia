@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
-import { Animal } from "@/interfaces/Animal";
+import { Animal } from "@/Interfaces/Animal";
+import { useAuth } from "@/Composables/useAuth";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -11,6 +12,7 @@ const emit = defineEmits(["editModal"]);
 defineProps<{ animal: Animal }>();
 const availableClass = ref("text-gray-800");
 const unavailableClass = ref("text-gray-400");
+const { isAuthenticated } = useAuth();
 </script>
 
 <template>
@@ -33,7 +35,7 @@ const unavailableClass = ref("text-gray-400");
         <img
             :src="animal.image ?? 'https://placecats.com/400/260'"
             :alt="animal.name"
-            class="rounded-lg mb-3 -mt-4"
+            class="rounded-lg mb-3 -mt-4 w-full object-cover"
         />
 
         <div>
@@ -62,7 +64,7 @@ const unavailableClass = ref("text-gray-400");
                     }}
                 </p>
             </div>
-            <div class="text-center mt-4" v-if="$page.props.auth.user.id">
+            <div class="text-center mt-4" v-if="isAuthenticated">
                 <PrimaryButton @click="emit('editModal', animal.id)">
                     Edit
                 </PrimaryButton>

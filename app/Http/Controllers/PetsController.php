@@ -4,30 +4,29 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Animal;
 use App\Models\Species;
+use App\Repositories\AnimalRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PetsController extends Controller
 {
-    // Display a listing of the resource.
+    public function __construct(private readonly AnimalRepository $animals) {}
+
     public function index(Request $request)
     {
-        $animals = Animal::withFilterAndSort()
-            ->withSpecies()
-            ->paginate($request->get('perPage', 15))
-            ->withQueryString();
-
         return Inertia::render('Pets/Index', [
-            'animals' => $animals,
+            'animals' => $this->animals->findAllAvailablePaginated($request),
             'species' => Species::orderBy('name')->get(),
         ]);
     }
 
-    // Display the specified resource.
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        $animal = $this->animals->findOne($id);
+
+        return Inertia::render('Pets/Show', [
+            'animal' => $animal
+        ]);
     }
 }

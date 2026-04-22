@@ -8,25 +8,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAnimalRequest;
 use App\Models\Animal;
 use App\Models\Species;
+use App\Repositories\AnimalRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class AnimalController extends Controller
+class PetsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+        private AnimalRepository $animalRepo
+    ) {}
+
     public function index(Request $request): Response
     {
-        $animals = Animal::withFilterAndSort()
-            ->withSpecies()
-            ->paginate($request->get('perPage', 15))
-            ->withQueryString();
-
-        return Inertia::render('Animals/Index', [
-            'animals' => $animals,
-            'species' => Species::orderBy('name')->get(),
+        return Inertia::render('Admin/Pets/Index', [
+            'animals' => $this->animalRepo->findAllPaginated($request),
+            'species' => Species::orderBy('name')->get()
         ]);
     }
 
@@ -35,7 +32,7 @@ class AnimalController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Animals/Create', [
+        return Inertia::render('Admin/Pets/Create', [
             'animal' => new Animal,
             'species' => Species::orderBy('name')->get(),
         ]);
@@ -50,7 +47,7 @@ class AnimalController extends Controller
         $animal->fill($request->validated());
         $animal->save();
 
-        return redirect(route('animals.index'));
+        return redirect(route('pets.index'));
     }
 
     /**
@@ -60,7 +57,7 @@ class AnimalController extends Controller
     {
         $animal->update($request->validated());
 
-        return redirect(route('animals.index'));
+        return redirect(route('pets.index'));
     }
 
     /**

@@ -4,13 +4,13 @@ import PetCard from "@/Components/Animals/PetCard.vue";
 import { Head } from "@inertiajs/vue3";
 import Modal from "@/Components/Breeze/Modal.vue";
 import { ref } from "vue";
-import { Animal } from "@/interfaces/Animal";
+import { Animal } from "@/Interfaces/Animal";
 import Pagination from "@/Components/Pagination.vue";
-import { LengthAwarePaginator } from "../../interfaces/LengthAwarePaginator";
+import { LengthAwarePaginator } from "../../../Interfaces/LengthAwarePaginator";
 import { route } from "ziggy-js";
 import FilterPets from "@/Components/Animals/FilterPets.vue";
 import NavLink from "@/Components/Breeze/NavLink.vue";
-import { Species } from "@/interfaces/Species";
+import { Species } from "@/Interfaces/Species";
 import PetForm from "@/Components/Animals/PetForm.vue";
 
 const props = defineProps<{
@@ -46,7 +46,7 @@ const openEditModal = (id: number) => {
         </template>
 
         <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-            <FilterPets :species="species" />
+            <FilterPets :species="species" route-name="admin.pets.index" />
 
             <div class="grid grid-cols-3 gap-3" v-if="animals.data.length > 0">
                 <PetCard
