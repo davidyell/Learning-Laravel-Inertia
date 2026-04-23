@@ -1,4 +1,4 @@
-import type { User } from "@/Interfaces/User";
+import type { User } from "@/interfaces/User";
 
 declare module "@inertiajs/core" {
     interface PageProps {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import AuthenticatedLayout from "@/layouts/AuthenticatedLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
-import { Species } from "@/Interfaces/Species";
-import { Animal } from "@/Interfaces/Animal";
-import PetForm from "@/Components/Animals/PetForm.vue";
+import { Species } from "@/interfaces/Species";
+import { Animal } from "@/interfaces/Animal";
+import PetForm from "@/components/animals/PetForm.vue";
 
 const props = defineProps<{
     animal: Animal;

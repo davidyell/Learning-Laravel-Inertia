@@ -1,10 +1,10 @@
 <script setup>
-import Checkbox from "@/Components/Breeze/Checkbox.vue";
-import AuthLayout from "@/Layouts/AuthLayout.vue";
-import InputError from "@/Components/Breeze/InputError.vue";
-import InputLabel from "@/Components/Breeze/InputLabel.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
-import TextInput from "@/Components/Breeze/TextInput.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { route } from "ziggy-js";
 
@@ -40,9 +40,9 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <Label for="email">Email</Label>
 
-                <TextInput
+                <Input
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -52,13 +52,19 @@ const submit = () => {
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <Alert
+                    variant="destructive"
+                    class="mt-2"
+                    v-if="form.errors.email"
+                >
+                    <AlertDescription>{{ form.errors.email }}</AlertDescription>
+                </Alert>
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <Label for="password">Password</Label>
 
-                <TextInput
+                <Input
                     id="password"
                     type="password"
                     class="mt-1 block w-full"
@@ -67,7 +73,15 @@ const submit = () => {
                     autocomplete="current-password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
+                <Alert
+                    variant="destructive"
+                    class="mt-2"
+                    v-if="form.errors.password"
+                >
+                    <AlertDescription>{{
+                        form.errors.password
+                    }}</AlertDescription>
+                </Alert>
             </div>
 
             <div class="mt-4 block">
@@ -86,13 +100,13 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton
+                <Button
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Log in
-                </PrimaryButton>
+                </Button>
             </div>
         </form>
     </AuthLayout>

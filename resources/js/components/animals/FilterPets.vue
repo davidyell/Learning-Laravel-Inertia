@@ -1,0 +1,187 @@
+<script lang="ts" setup>
+import { router } from "@inertiajs/vue3";
+import { ref, watch } from "vue";
+import { route } from "ziggy-js";
+import _ from "lodash";
+import { Species } from "@/interfaces/Species";
+import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/vue/24/outline";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/composables/useAuth";
+
+const props = defineProps<{
+    species: Species[];
+    routeName?: string;
+}>();
+
+const { isAuthenticated } = useAuth();
+
+const query = new URLSearchParams(window.location.search);
+
+const filter = ref({
+    name: query.get("filter[name]") || "",
+    species: query.get("filter[species]") || "",
+    breed: query.get("filter[breed]") || "",
+    available: query.get("filter[available]") === "true" || false,
+    adoptionsExists: query.get("filter[hasAdoptions]") === "true",
+});
+
+const sortTerm = ref(query.get("sort") || "name");
+
+const applySortAndFilter = () => {
+    const newSortTerm = sortTerm.value.includes("-")
+        ? "updated_at"
+        : "-updated_at";
+
+    query.set("sort", newSortTerm);
+    query.set("filter[name]", filter.value.name);
+    query.set("filter[species]", filter.value.species);
+    query.set("filter[breed]", filter.value.breed);
+    if (isAuthenticated.value) {
+        query.set("filter[available]", filter.value.available);
+    }
+    if (filter.value.adoptionsExists) {
+        query.set("filter[hasAdoptions]", "true");
+    } else {
+        query.delete("filter[hasAdoptions]");
+    }
+
+    const queryParams = Object.fromEntries(query.entries());
+
+    router.get(route(props.routeName ?? "pets.index"), queryParams, {
+        preserveState: true,
+        preserveScroll: true,
+    });
+
+    sortTerm.value = newSortTerm;
+};
+
+const resetFilter = () => {
+    filter.value.name = "";
+    filter.value.species = "";
+    filter.value.breed = "";
+    filter.value.available = false;
+    sortTerm.value = "updated_at";
+    filter.value.adoptionsExists = false;
+};
+
+watch(
+    () => filter.value.name,
+    _.debounce((newValue) => {
+        filter.value.name = newValue;
+        applySortAndFilter();
+    }, 300),
+);
+watch(
+    () => filter.value.species,
+    (newValue) => {
+        filter.value.species = newValue;
+        applySortAndFilter();
+    },
+);
+
+watch(
+    () => filter.value.breed,
+    _.debounce((newValue) => {
+        filter.value.breed = newValue;
+        applySortAndFilter();
+    }, 300),
+);
+
+watch(
+    () => filter.value.available,
+    (newValue) => {
+        filter.value.available = newValue;
+        applySortAndFilter();
+    },
+);
+
+watch(
+    () => filter.value.adoptionsExists,
+    (newValue) => {
+        filter.value.adoptionsExists = newValue;
+        applySortAndFilter();
+    },
+);
+</script>
+<template>
+    <form>
+        <div
+            class="flex justify-start items-center bg-white rounded-lg shadow p-4 mb-4 gap-3"
+        >
+            <input
+                type="text"
+                placeholder="Search by name"
+                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                v-model="filter.name"
+            />
+
+            <label for="filter-species" class="mr-2 text-sm text-gray-800"
+                >Species:</label
+            >
+            <select
+                id="filter-species"
+                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                v-model="filter.species"
+            >
+                <option value="">All</option>
+                <option v-for="s in species" :key="s.id" :value="s.id">
+                    {{ s.name }}
+                </option>
+            </select>
+
+            <input
+                type="text"
+                placeholder="Search by breed"
+                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                v-model="filter.breed"
+            />
+
+            <label class="flex items-center space-x-2" v-if="isAuthenticated">
+                <input
+                    type="checkbox"
+                    class="form-checkbox text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    v-model="filter.available"
+                />
+                <span class="text-sm text-gray-800">Available only</span>
+            </label>
+
+            <label class="flex items-center space-x-2" v-if="isAuthenticated">
+                <input
+                    type="checkbox"
+                    class="form-checkbox text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    v-model="filter.adoptionsExists"
+                />
+                <span class="text-sm text-gray-800">Adoption requests</span>
+            </label>
+
+            <a
+                @click.prevent="applySortAndFilter"
+                :href="
+                    route('pets.index', {
+                        sort: sortTerm?.includes('-')
+                            ? '-updated_at'
+                            : 'updated_at',
+                    })
+                "
+                class="ml-4 text-sm text-gray-800"
+            >
+                <span v-if="sortTerm?.includes('-')">
+                    <ArrowDownIcon class="h-4 w-4 inline-block" /> Sort by
+                    oldest
+                </span>
+                <span v-else>
+                    <ArrowUpIcon class="h-4 w-4 inline-block" /> Sort by recent
+                </span>
+            </a>
+
+            <Button
+                type="button"
+                variant="secondary"
+                class="ml-auto"
+                @click="resetFilter"
+            >
+                Reset
+            </Button>
+        </div>
+    </form>
+</template>

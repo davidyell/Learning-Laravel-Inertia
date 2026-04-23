@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
-import Navigation from "@/Components/UserSite/Navigation.vue";
+import Navigation from "@/components/user-site/Navigation.vue";
 
 defineProps<{
     appName: string;

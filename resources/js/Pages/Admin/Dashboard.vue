@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useAuth } from '@/Composables/useAuth';
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { useAuth } from "@/composables/useAuth";
+import AuthenticatedLayout from "@/layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 
 const { user } = useAuth();
 
 defineProps<{
-    petCount: number,
-    petsAvailable: number
-}>()
+    petCount: number;
+    petsAvailable: number;
+}>();
 </script>
 
 <template>
@@ -44,7 +44,7 @@ defineProps<{
                         <div class="text-center">
                             <h3>Pets adopted</h3>
                             <p class="text-4xl font-semibold text-gray-900">
-                                {{ petCount -petsAvailable }}
+                                {{ petCount - petsAvailable }}
                             </p>
                         </div>
                     </div>
