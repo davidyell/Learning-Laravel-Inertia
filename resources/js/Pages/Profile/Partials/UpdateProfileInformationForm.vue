@@ -1,8 +1,8 @@
 <script setup>
-import InputError from '@/Components/Breeze/InputError.vue';
-import InputLabel from '@/Components/Breeze/InputLabel.vue';
-import PrimaryButton from '@/Components/Breeze/PrimaryButton.vue';
-import TextInput from '@/Components/Breeze/TextInput.vue';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 
 defineProps({
@@ -39,9 +39,9 @@ const form = useForm({
             class="mt-6 space-y-6"
         >
             <div>
-                <InputLabel for="name" value="Name" />
+                <Label for="name">Name</Label>
 
-                <TextInput
+                <Input
                     id="name"
                     type="text"
                     class="mt-1 block w-full"
@@ -51,13 +51,15 @@ const form = useForm({
                     autocomplete="name"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <Alert variant="destructive" class="mt-2" v-if="form.errors.name">
+                    <AlertDescription>{{ form.errors.name }}</AlertDescription>
+                </Alert>
             </div>
 
             <div>
-                <InputLabel for="email" value="Email" />
+                <Label for="email">Email</Label>
 
-                <TextInput
+                <Input
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -66,7 +68,9 @@ const form = useForm({
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <Alert variant="destructive" class="mt-2" v-if="form.errors.email">
+                    <AlertDescription>{{ form.errors.email }}</AlertDescription>
+                </Alert>
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
@@ -91,7 +95,7 @@ const form = useForm({
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <Button :disabled="form.processing">Save</Button>
 
                 <Transition
                     enter-active-class="transition ease-in-out"

@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
-import AuthLayout from "@/Layouts/AuthLayout.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import { Button } from "@/components/ui/button";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { route } from "ziggy-js";
 
@@ -18,7 +18,7 @@ const submit = () => {
 };
 
 const verificationLinkSent = computed(
-    () => props.status === "verification-link-sent"
+    () => props.status === "verification-link-sent",
 );
 </script>
 
@@ -42,12 +42,12 @@ const verificationLinkSent = computed(
 
         <form @submit.prevent="submit">
             <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton
+                <Button
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Resend Verification Email
-                </PrimaryButton>
+                </Button>
 
                 <Link
                     :href="route('logout')"

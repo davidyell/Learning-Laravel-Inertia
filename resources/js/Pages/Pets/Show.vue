@@ -1,44 +1,52 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import PublicLayout from "@/Layouts/PublicLayout.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
-import { Animal } from "@/Interfaces/Animal";
-import { useAuth } from '@/Composables/useAuth';
-import { FwbModal, FwbButton, FwbTextarea, FwbAlert } from 'flowbite-vue';
-import { useForm } from '@inertiajs/vue3'
-import { route } from 'ziggy-js';
-import { usePage } from '@inertiajs/vue3';
+import PublicLayout from "@/layouts/PublicLayout.vue";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Animal } from "@/interfaces/Animal";
+import { useAuth } from "@/composables/useAuth";
+import { useForm, Link } from "@inertiajs/vue3";
+import { route } from "ziggy-js";
+import { usePage } from "@inertiajs/vue3";
 
 const props = defineProps<{
     animal: Animal;
     errors: { notes: string };
-}>()
+}>();
 
 const { user, isAuthenticated } = useAuth();
-const showAdoptModal = ref(false)
-const page = usePage()
+const showAdoptModal = ref(false);
+const page = usePage();
 
 const form = useForm({
     id: props.animal.id,
-    notes: ''
-})
+    notes: "",
+});
 
 const sendAdoption = () => {
-    form.post(route('pets.adopt', props.animal.id), {
+    form.post(route("pets.adopt", props.animal.id), {
         onSuccess: () => {
             form.reset();
             form.clearErrors();
             showAdoptModal.value = false;
-        }
-    })
-}
+        },
+    });
+};
 </script>
 
 <template>
     <PublicLayout title="View Pet">
-        <FwbAlert type="info" v-if="page.props.flash?.success">
-            {{ page.props.flash.success }}
-        </FwbAlert>
+        <Alert variant="destructive" v-if="page.props.flash?.success">
+            <AlertDescription>{{ page.props.flash.success }}</AlertDescription>
+        </Alert>
 
         <div class="lg:flex lg:gap-8">
             <div class="lg:w-1/2">
@@ -92,36 +100,41 @@ const sendAdoption = () => {
                 </p>
 
                 <div class="mt-6" v-if="animal.available && isAuthenticated">
-                    <PrimaryButton @click="showAdoptModal = true">
+                    <Button @click="showAdoptModal = true">
                         Adopt this pet
-                    </PrimaryButton>
+                    </Button>
                 </div>
                 <div class="mt-6" v-else>
-                    <FwbButton href="/register">Sign up to adopt</FwbButton>
+                    <Button as-child>
+                        <Link href="/register">Sign up to adopt</Link>
+                    </Button>
                 </div>
             </div>
         </div>
 
-        <FwbModal v-if="showAdoptModal" @close="showAdoptModal = false">
-            <template #header>
-                <h2 class="text-lg font-semibold text-gray-900">
-                    Adopt {{ animal.name }}
-                </h2>
-            </template>
-            <template #body>
+        <Dialog v-model:open="showAdoptModal">
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Adopt {{ animal.name }}</DialogTitle>
+                </DialogHeader>
                 <p class="mb-3">
                     You're one step closer to giving {{ animal.name }} a forever
                     home! Please contact us to start the adoption process.
                 </p>
 
                 <form @submit.prevent="sendAdoption" class="space-y-3">
-                    <FwbTextarea v-model="form.notes" :label="`Why do you want to adopt ${animal.name}`"/>
-                    <p class="text-sm text-red-600" v-if="errors.notes">{{ errors.notes }}</p>
+                    <Label>Why do you want to adopt {{ animal.name }}</Label>
+                    <Textarea v-model="form.notes" />
+                    <Alert variant="destructive" v-if="errors.notes">
+                        <AlertDescription>{{ errors.notes }}</AlertDescription>
+                    </Alert>
 
-                    <p class="text-sm text-gray-400">Adopting as: {{ user?.name }} {{ user?.email }}</p>
-                    <FwbButton type="submit">Send</FwbButton>
+                    <p class="text-sm text-gray-400">
+                        Adopting as: {{ user?.name }} {{ user?.email }}
+                    </p>
+                    <Button type="submit">Send</Button>
                 </form>
-            </template>
-        </FwbModal>
+            </DialogContent>
+        </Dialog>
     </PublicLayout>
 </template>

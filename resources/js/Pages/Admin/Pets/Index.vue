@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import PetCard from "@/Components/Animals/PetCard.vue";
-import Modal from "@/Components/Breeze/Modal.vue";
+import AuthenticatedLayout from "@/layouts/AuthenticatedLayout.vue";
+import PetCard from "@/components/animals/PetCard.vue";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ref } from "vue";
-import { Animal } from "@/Interfaces/Animal";
-import Pagination from "@/Components/Pagination.vue";
-import { LengthAwarePaginator } from "../../../Interfaces/LengthAwarePaginator";
+import { Animal } from "@/interfaces/Animal";
+import Pagination from "@/components/Pagination.vue";
+import { LengthAwarePaginator } from "../../../interfaces/LengthAwarePaginator";
 import { route } from "ziggy-js";
-import FilterPets from "@/Components/Animals/FilterPets.vue";
-import NavLink from "@/Components/Breeze/NavLink.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
-import { Species } from "@/Interfaces/Species";
-import PetForm from "@/Components/Animals/PetForm.vue";
+import { Link } from "@inertiajs/vue3";
+import FilterPets from "@/components/animals/FilterPets.vue";
+import { Species } from "@/interfaces/Species";
+import PetForm from "@/components/animals/PetForm.vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
 const props = defineProps<{
-    animals: LengthAwarePaginator<Animal & { adoptions_count: number; }>;
+    animals: LengthAwarePaginator<Animal & { adoptions_count: number }>;
     species: Species[];
 }>();
 const showModal = ref<boolean>(false);
@@ -41,9 +41,12 @@ const openEditModal = (id: number) => {
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
                     Pets
                 </h2>
-                <NavLink :href="route('admin.pets.create')">
+                <Link
+                    :href="route('admin.pets.create')"
+                    class="text-sm text-gray-600 underline hover:text-gray-900"
+                >
                     Add a new pet
-                </NavLink>
+                </Link>
             </div>
         </template>
 
@@ -58,18 +61,27 @@ const openEditModal = (id: number) => {
                 >
                     <template #footer>
                         <div class="flex flex-row items-center gap-3 mt-4">
-                            <PrimaryButton @click="openEditModal(animal.id)">
+                            <Button @click="openEditModal(animal.id)">
                                 Edit
-                            </PrimaryButton>
-                            <NavLink
+                            </Button>
+                            <Link
                                 v-if="animal.adoptions_count ?? 0 > 0"
-                                :href="route('admin.pets.adoptions.show', animal.id)"
+                                :href="
+                                    route(
+                                        'admin.pets.adoptions.show',
+                                        animal.id,
+                                    )
+                                "
+                                class="text-sm text-gray-600 underline hover:text-gray-900"
                             >
                                 {{ animal.adoptions_count }} Adoptions
-                            </NavLink>
-                            <p class="text-sm text-gray-500" v-else>No adoptions yet</p>
+                            </Link>
+                            <p class="text-sm text-gray-500" v-else>
+                                No adoptions yet
+                            </p>
                             <p class="my-2 text-sm text-gray-500">
-                                Last updated {{ dayjs(animal.updated_at).fromNow() }}
+                                Last updated
+                                {{ dayjs(animal.updated_at).fromNow() }}
                             </p>
                         </div>
                     </template>
@@ -87,17 +99,19 @@ const openEditModal = (id: number) => {
 
         <Pagination :pagination="animals" />
 
-        <Modal :show="showModal" @close="resetEditModal">
-            <div class="m-4">
-                <PetForm
-                    v-if="editedAnimal !== null"
-                    :method="'edit'"
-                    :animal="editedAnimal"
-                    :species="species"
-                    :isModal="true"
-                    @close="resetEditModal"
-                />
-            </div>
-        </Modal>
+        <Dialog v-model:open="showModal">
+            <DialogContent>
+                <div class="m-4">
+                    <PetForm
+                        v-if="editedAnimal !== null"
+                        :method="'edit'"
+                        :animal="editedAnimal"
+                        :species="species"
+                        :isModal="true"
+                        @close="resetEditModal"
+                    />
+                </div>
+            </DialogContent>
+        </Dialog>
     </AuthenticatedLayout>
 </template>

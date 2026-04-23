@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import PetCard from "@/Components/Animals/PetCard.vue";
-import type { Adoption } from "@/Interfaces/Adoption";
-import { Animal } from "@/Interfaces/Animal";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import PetCard from "@/components/animals/PetCard.vue";
+import type { Adoption } from "@/interfaces/Adoption";
+import { Animal } from "@/interfaces/Animal";
+import AuthenticatedLayout from "@/layouts/AuthenticatedLayout.vue";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import dayjs from "dayjs";
-import { FwbCard, FwbBadge } from "flowbite-vue";
 
 defineProps<{
     animal: Animal & { adoptions: Adoption[] };
@@ -29,38 +30,39 @@ defineProps<{
 
                 <div class="col-span-2">
                     <div v-if="animal.adoptions.length > 0">
-                        <FwbCard
+                        <Card
                             v-for="adoption in animal.adoptions"
                             :key="adoption.id"
-                            variant="horizontal"
                             class="w-full mb-4 bg-white border-gray-300"
                         >
-                            <div class="flex flex-row gap-3 items-center p-5">
-                                <div class="flex-1">
-                                    <h5
-                                        class="mb-2 text-2xl font-bold tracking-tight"
+                            <CardContent>
+                                <div
+                                    class="flex flex-row gap-3 items-center p-5"
+                                >
+                                    <div class="flex-1">
+                                        <h5
+                                            class="mb-2 text-2xl font-bold tracking-tight"
+                                        >
+                                            {{ adoption.user?.name }}
+                                        </h5>
+                                        <p>{{ adoption.user?.email }}</p>
+                                        <p>{{ adoption.notes }}</p>
+                                        <p class="text-gray-500 text-sm mt-4">
+                                            Submitted at
+                                            {{
+                                                dayjs(
+                                                    adoption.updated_at,
+                                                ).format("HH:mm:s D MMM YYYY")
+                                            }}
+                                        </p>
+                                    </div>
+                                    <Badge v-if="adoption.approved"
+                                        >Approved</Badge
                                     >
-                                        {{ adoption.user?.name }}
-                                    </h5>
-                                    <p>{{ adoption.user?.email }}</p>
-                                    <p>{{ adoption.notes }}</p>
-                                    <p class="text-gray-500 text-sm mt-4">
-                                        Submitted at
-                                        {{
-                                            dayjs(adoption.updated_at).format(
-                                                "HH:mm:s D MMM YYYY",
-                                            )
-                                        }}
-                                    </p>
+                                    <Badge v-else>Pending</Badge>
                                 </div>
-                                <FwbBadge v-if="adoption.approved" type="green">
-                                    Approved
-                                </FwbBadge>
-                                <FwbBadge v-else type="yellow">
-                                    Pending
-                                </FwbBadge>
-                            </div>
-                        </FwbCard>
+                            </CardContent>
+                        </Card>
                     </div>
                     <p v-else>No adoptions found.</p>
                 </div>

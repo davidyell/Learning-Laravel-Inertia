@@ -1,8 +1,8 @@
 <script setup>
-import InputError from "@/Components/Breeze/InputError.vue";
-import InputLabel from "@/Components/Breeze/InputLabel.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
-import TextInput from "@/Components/Breeze/TextInput.vue";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { route } from "ziggy-js";
@@ -47,9 +47,9 @@ const updatePassword = () => {
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="current_password" value="Current Password" />
+                <Label for="current_password">Current Password</Label>
 
-                <TextInput
+                <Input
                     id="current_password"
                     ref="currentPasswordInput"
                     v-model="form.current_password"
@@ -58,16 +58,15 @@ const updatePassword = () => {
                     autocomplete="current-password"
                 />
 
-                <InputError
-                    :message="form.errors.current_password"
-                    class="mt-2"
-                />
+                <Alert variant="destructive" class="mt-2" v-if="form.errors.current_password">
+                    <AlertDescription>{{ form.errors.current_password }}</AlertDescription>
+                </Alert>
             </div>
 
             <div>
-                <InputLabel for="password" value="New Password" />
+                <Label for="password">New Password</Label>
 
-                <TextInput
+                <Input
                     id="password"
                     ref="passwordInput"
                     v-model="form.password"
@@ -76,16 +75,15 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password" class="mt-2" />
+                <Alert variant="destructive" class="mt-2" v-if="form.errors.password">
+                    <AlertDescription>{{ form.errors.password }}</AlertDescription>
+                </Alert>
             </div>
 
             <div>
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
+                <Label for="password_confirmation">Confirm Password</Label>
 
-                <TextInput
+                <Input
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
@@ -93,14 +91,13 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError
-                    :message="form.errors.password_confirmation"
-                    class="mt-2"
-                />
+                <Alert variant="destructive" class="mt-2" v-if="form.errors.password_confirmation">
+                    <AlertDescription>{{ form.errors.password_confirmation }}</AlertDescription>
+                </Alert>
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <Button :disabled="form.processing">Save</Button>
 
                 <Transition
                     enter-active-class="transition ease-in-out"

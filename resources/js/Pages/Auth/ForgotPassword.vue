@@ -1,9 +1,9 @@
 <script setup>
-import AuthLayout from "@/Layouts/AuthLayout.vue";
-import InputError from "@/Components/Breeze/InputError.vue";
-import InputLabel from "@/Components/Breeze/InputLabel.vue";
-import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
-import TextInput from "@/Components/Breeze/TextInput.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Head, useForm } from "@inertiajs/vue3";
 import { route } from "ziggy-js";
 
@@ -38,9 +38,9 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <Label for="email">Email</Label>
 
-                <TextInput
+                <Input
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -50,16 +50,22 @@ const submit = () => {
                     autocomplete="username"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <Alert
+                    variant="destructive"
+                    class="mt-2"
+                    v-if="form.errors.email"
+                >
+                    <AlertDescription>{{ form.errors.email }}</AlertDescription>
+                </Alert>
             </div>
 
             <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
+                <Button
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Email Password Reset Link
-                </PrimaryButton>
+                </Button>
             </div>
         </form>
     </AuthLayout>

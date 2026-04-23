@@ -1,6 +1,6 @@
 <script setup>
-import Navigation from "@/Components/UserSite/Navigation.vue";
-import Footer from "@/Components/UserSite/Footer.vue";
+import Navigation from "@/components/user-site/Navigation.vue";
+import Footer from "@/components/user-site/Footer.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { route } from "ziggy-js";
 

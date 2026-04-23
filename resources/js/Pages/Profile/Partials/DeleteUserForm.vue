@@ -1,10 +1,9 @@
 <script setup>
-import DangerButton from "@/Components/Breeze/DangerButton.vue";
-import InputError from "@/Components/Breeze/InputError.vue";
-import InputLabel from "@/Components/Breeze/InputLabel.vue";
-import Modal from "@/Components/Breeze/Modal.vue";
-import SecondaryButton from "@/Components/Breeze/SecondaryButton.vue";
-import TextInput from "@/Components/Breeze/TextInput.vue";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useForm } from "@inertiajs/vue3";
 import { nextTick, ref } from "vue";
 import { route } from "ziggy-js";
@@ -51,55 +50,56 @@ const closeModal = () => {
             </p>
         </header>
 
-        <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+        <Button variant="destructive" @click="confirmUserDeletion">Delete Account</Button>
 
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
-            <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900">
-                    Are you sure you want to delete your account?
-                </h2>
+        <Dialog v-model:open="confirmingUserDeletion">
+            <DialogContent>
+                <div class="p-6">
+                    <h2 class="text-lg font-medium text-gray-900">
+                        Are you sure you want to delete your account?
+                    </h2>
 
-                <p class="mt-1 text-sm text-gray-600">
-                    Once your account is deleted, all of its resources and data
-                    will be permanently deleted. Please enter your password to
-                    confirm you would like to permanently delete your account.
-                </p>
+                    <p class="mt-1 text-sm text-gray-600">
+                        Once your account is deleted, all of its resources and data
+                        will be permanently deleted. Please enter your password to
+                        confirm you would like to permanently delete your account.
+                    </p>
 
-                <div class="mt-6">
-                    <InputLabel
-                        for="password"
-                        value="Password"
-                        class="sr-only"
-                    />
+                    <div class="mt-6">
+                        <Label for="password" class="sr-only">Password</Label>
 
-                    <TextInput
-                        id="password"
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Password"
-                        @keyup.enter="deleteUser"
-                    />
+                        <Input
+                            id="password"
+                            ref="passwordInput"
+                            v-model="form.password"
+                            type="password"
+                            class="mt-1 block w-3/4"
+                            placeholder="Password"
+                            @keyup.enter="deleteUser"
+                        />
 
-                    <InputError :message="form.errors.password" class="mt-2" />
+                        <Alert variant="destructive" class="mt-2" v-if="form.errors.password">
+                            <AlertDescription>{{ form.errors.password }}</AlertDescription>
+                        </Alert>
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <Button variant="secondary" @click="closeModal">
+                            Cancel
+                        </Button>
+
+                        <Button
+                            variant="destructive"
+                            class="ms-3"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            @click="deleteUser"
+                        >
+                            Delete Account
+                        </Button>
+                    </div>
                 </div>
-
-                <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModal">
-                        Cancel
-                    </SecondaryButton>
-
-                    <DangerButton
-                        class="ms-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
-                        Delete Account
-                    </DangerButton>
-                </div>
-            </div>
-        </Modal>
+            </DialogContent>
+        </Dialog>
     </section>
 </template>
