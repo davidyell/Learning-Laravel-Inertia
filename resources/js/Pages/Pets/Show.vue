@@ -100,7 +100,7 @@ const sendAdoption = () => {
                 </p>
 
                 <div class="mt-6" v-if="animal.available && isAuthenticated">
-                    <Button @click="showAdoptModal = true">
+                    <Button @click="showAdoptModal=true">
                         Adopt this pet
                     </Button>
                 </div>
