@@ -8,6 +8,7 @@ use App\Models\Species;
 use App\Repositories\AnimalRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PetsController extends Controller
 {
@@ -21,7 +22,7 @@ class PetsController extends Controller
         ]);
     }
 
-    public function show(int $id)
+    public function show(int $id): Response
     {
         $animal = $this->animals->findOne($id);
 

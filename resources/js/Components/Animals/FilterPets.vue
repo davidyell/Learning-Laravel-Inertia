@@ -22,6 +22,7 @@ const filter = ref({
     species: query.get("filter[species]") || "",
     breed: query.get("filter[breed]") || "",
     available: query.get("filter[available]") === "true" || false,
+    adoptionsExists: query.get("filter[hasAdoptions]") === "true"
 });
 
 const sortTerm = ref(query.get("sort") || "name");
@@ -37,6 +38,11 @@ const applySortAndFilter = () => {
     query.set("filter[breed]", filter.value.breed);
     if (isAuthenticated.value) {
         query.set("filter[available]", filter.value.available);
+    }
+    if (filter.value.adoptionsExists) {
+        query.set("filter[hasAdoptions]", "true");
+    } else {
+        query.delete("filter[hasAdoptions]");
     }
 
     const queryParams = Object.fromEntries(query.entries());
@@ -55,6 +61,7 @@ const resetFilter = () => {
     filter.value.breed = "";
     filter.value.available = false;
     sortTerm.value = "updated_at";
+    filter.value.adoptionsExists = false;
 };
 
 watch(
@@ -87,23 +94,31 @@ watch(
         applySortAndFilter();
     }
 );
+
+watch(
+    () => filter.value.adoptionsExists,
+    (newValue) => {
+        filter.value.adoptionsExists = newValue;
+        applySortAndFilter();
+    }
+);
 </script>
 <template>
     <form>
         <div
-            class="flex justify-start items-center bg-white rounded-lg shadow p-4 mb-4"
+            class="flex justify-start items-center bg-white rounded-lg shadow p-4 mb-4 gap-3"
         >
             <input
                 type="text"
                 placeholder="Search by name"
-                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4"
+                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 v-model="filter.name"
             />
 
             <label for="filter-species" class="mr-2 text-sm text-gray-800">Species:</label>
             <select
                 id="filter-species"
-                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4"
+                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 v-model="filter.species"
             >
                 <option value="">All</option>
@@ -115,7 +130,7 @@ watch(
             <input
                 type="text"
                 placeholder="Search by breed"
-                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mr-4"
+                class="p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 v-model="filter.breed"
             />
 
@@ -126,6 +141,15 @@ watch(
                     v-model="filter.available"
                 />
                 <span class="text-sm text-gray-800">Available only</span>
+            </label>
+
+            <label class="flex items-center space-x-2" v-if="isAuthenticated">
+                <input
+                    type="checkbox"
+                    class="form-checkbox text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    v-model="filter.adoptionsExists"
+                />
+                <span class="text-sm text-gray-800">Adoption requests</span>
             </label>
 
             <a

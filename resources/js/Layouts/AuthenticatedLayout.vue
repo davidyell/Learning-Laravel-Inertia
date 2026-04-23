@@ -45,7 +45,8 @@ const { user, isAuthenticated } = useAuth();
                                     :href="route('admin.pets.index')"
                                     :active="
                                         route().current('admin.pets.index') ||
-                                        route().current('animals.create')
+                                        route().current('admin.pets.create') ||
+                                        route().current('admin.pets.adoptions.show')
                                     "
                                 >
                                     Pets
@@ -162,7 +163,7 @@ const { user, isAuthenticated } = useAuth();
                             :href="route('pets.index')"
                             :active="
                                 route().current('pets.index') ||
-                                route().current('animals.create')
+                                route().current('admin.pets.create')
                             "
                         >
                             Pets

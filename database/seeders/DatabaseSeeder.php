@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             // Seed species first, so the animal.species_id foreign key constraint is satisfied
             SpeciesSeeder::class,
             AnimalSeeder::class,
-            AdoptionsSeeder::class
+            AdoptionSeeder::class
         ]);
     }
 }

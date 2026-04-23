@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Pets;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAnimalRequest;
@@ -21,8 +21,10 @@ class PetsController extends Controller
 
     public function index(Request $request): Response
     {
+        $animals = $this->animalRepo->findAllPaginated($request);
+
         return Inertia::render('Admin/Pets/Index', [
-            'animals' => $this->animalRepo->findAllPaginated($request),
+            'animals' => $animals,
             'species' => Species::orderBy('name')->get()
         ]);
     }

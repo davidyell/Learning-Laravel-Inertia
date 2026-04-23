@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -54,10 +55,21 @@ class Animal extends Model
         return $this->belongsTo(Species::class);
     }
 
+    public function adoptions(): HasMany
+    {
+        return $this->hasMany(Adoption::class);
+    }
+
     public function scopeWithFilterAndSort(Builder|Relation|string $query): QueryBuilder
     {
         return QueryBuilder::for($query)
-            ->allowedFilters('name', AllowedFilter::belongsTo('species', 'species'), 'breed', 'available')
+            ->allowedFilters(
+                'name',
+                AllowedFilter::belongsTo('species', 'species'),
+                'breed',
+                'available',
+                AllowedFilter::scope('hasAdoptions'),
+            )
             ->allowedSorts('updated_at')
             ->defaultSort('name');
     }
@@ -70,5 +82,10 @@ class Animal extends Model
     public function scopeIsAvailable(Builder $query): Builder
     {
         return $query->where('available', true);
+    }
+
+    public function scopeHasAdoptions(Builder $query): Builder
+    {
+        return $query->has('adoptions');
     }
 }

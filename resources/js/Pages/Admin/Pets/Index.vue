@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PetCard from "@/Components/Animals/PetCard.vue";
-import { Head } from "@inertiajs/vue3";
 import Modal from "@/Components/Breeze/Modal.vue";
 import { ref } from "vue";
 import { Animal } from "@/Interfaces/Animal";
@@ -10,11 +9,16 @@ import { LengthAwarePaginator } from "../../../Interfaces/LengthAwarePaginator";
 import { route } from "ziggy-js";
 import FilterPets from "@/Components/Animals/FilterPets.vue";
 import NavLink from "@/Components/Breeze/NavLink.vue";
+import PrimaryButton from "@/Components/Breeze/PrimaryButton.vue";
 import { Species } from "@/Interfaces/Species";
 import PetForm from "@/Components/Animals/PetForm.vue";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const props = defineProps<{
-    animals: LengthAwarePaginator<Animal>;
+    animals: LengthAwarePaginator<Animal & { adoptions_count: number; }>;
     species: Species[];
 }>();
 const showModal = ref<boolean>(false);
@@ -31,15 +35,13 @@ const openEditModal = (id: number) => {
 </script>
 
 <template>
-    <Head title="Pets" />
-
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between items-end mb-4">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
                     Pets
                 </h2>
-                <NavLink :href="route('animals.create')">
+                <NavLink :href="route('admin.pets.create')">
                     Add a new pet
                 </NavLink>
             </div>
@@ -53,13 +55,30 @@ const openEditModal = (id: number) => {
                     v-for="animal in animals.data"
                     :key="animal.id"
                     :animal="animal"
-                    @edit-modal="openEditModal"
-                />
+                >
+                    <template #footer>
+                        <div class="flex flex-row items-center gap-3 mt-4">
+                            <PrimaryButton @click="openEditModal(animal.id)">
+                                Edit
+                            </PrimaryButton>
+                            <NavLink
+                                v-if="animal.adoptions_count ?? 0 > 0"
+                                :href="route('admin.pets.adoptions.show', animal.id)"
+                            >
+                                {{ animal.adoptions_count }} Adoptions
+                            </NavLink>
+                            <p class="text-sm text-gray-500" v-else>No adoptions yet</p>
+                            <p class="my-2 text-sm text-gray-500">
+                                Last updated {{ dayjs(animal.updated_at).fromNow() }}
+                            </p>
+                        </div>
+                    </template>
+                </PetCard>
             </div>
             <p v-else>
                 No pets found. Would you like to
                 <a
-                    :href="route('animals.create')"
+                    :href="route('admin.pets.create')"
                     class="text-blue-600 hover:text-blue-900"
                     >add a new pet</a
                 >?

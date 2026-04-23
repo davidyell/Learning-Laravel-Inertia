@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Adoptions;
+use App\Models\Adoption;
 use App\Models\Animal;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Adoptions>
+ * @extends Factory<Adoption>
  */
-class AdoptionsFactory extends Factory
+class AdoptionFactory extends Factory
 {
     /**
      * Define the model's default state.

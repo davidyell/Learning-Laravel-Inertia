@@ -58,7 +58,7 @@ class User extends Authenticatable
      */
     public function adoptions(): HasMany
     {
-        return $this->hasMany(Adoptions::class, 'user_id', 'id');
+        return $this->hasMany(Adoption::class, 'user_id', 'id');
     }
 
     /**
@@ -68,6 +68,6 @@ class User extends Authenticatable
      */
     public function approvals(): HasMany
     {
-        return $this->hasMany(Adoptions::class, 'approved_by_id', 'id');
+        return $this->hasMany(Adoption::class, 'approved_by_id', 'id');
     }
 }

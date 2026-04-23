@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Adoptions extends Model
+class Adoption extends Model
 {
-    /** @use HasFactory<\Database\Factories\AdoptionsFactory> */
+    /** @use HasFactory<\Database\Factories\AdoptionFactory> */
     use HasFactory;
 
     /** @var List<string> */
@@ -16,6 +16,11 @@ class Adoptions extends Model
         'notes',
         'approved'
     ];
+
+    public function animal(): BelongsTo
+    {
+        return $this->belongsTo(Animal::class);
+    }
 
     public function user(): BelongsTo
     {

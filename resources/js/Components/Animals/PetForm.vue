@@ -32,11 +32,11 @@ const form = useForm({
     <form
         @submit.prevent="
             if (props.method === 'create') {
-                form.post(route('animals.store'), {
+                form.post(route('admin.pets.store'), {
                     onSuccess: () => (emit('close'), form.reset()),
                 });
             } else {
-                form.put(route('animals.update', props.animal.id), {
+                form.put(route('admin.pets.update', props.animal.id), {
                     onSuccess: () => (emit('close'), form.reset()),
                 });
             }
