@@ -6,10 +6,21 @@ import AuthenticatedLayout from "@/layouts/AuthenticatedLayout.vue";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import dayjs from "dayjs";
+import Button from '@/components/ui/button/Button.vue';
+import { route } from 'ziggy-js';
+import { router } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     animal: Animal & { adoptions: Adoption[] };
 }>();
+
+function approveAdoption(adoptionId: number) {
+    const adoption = props.animal.adoptions.find(adoption => adoption.id === adoptionId);
+    router.post(route('admin.pets.adoptions.approve', { animal: props.animal.id, adoption: adoption!.id }));
+}
+
+const hasApprovedAdoption = computed(() => props.animal.adoptions.find(adoption => adoption.approved) ?? false)
 </script>
 
 <template>
@@ -56,10 +67,19 @@ defineProps<{
                                             }}
                                         </p>
                                     </div>
-                                    <Badge v-if="adoption.approved"
-                                        >Approved</Badge
-                                    >
-                                    <Badge v-else>Pending</Badge>
+                                    <div class="flex flex-col gap-3">
+                                        <Badge v-if="adoption.approved" variant="success">
+                                            Approved by {{ adoption.approver?.name }}
+                                        </Badge>
+                                        <template v-else-if="hasApprovedAdoption === false">
+                                            <Badge variant="warning">
+                                                Pending
+                                            </Badge>
+                                            <Button @click="approveAdoption(adoption.id)">
+                                                Approve adoption
+                                            </Button>
+                                        </template>
+                                    </div>
                                 </div>
                             </CardContent>
                         </Card>

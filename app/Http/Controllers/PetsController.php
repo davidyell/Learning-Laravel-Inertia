@@ -18,7 +18,7 @@ class PetsController extends Controller
     {
         return Inertia::render('Pets/Index', [
             'animals' => $this->animals->findAllAvailablePaginated($request),
-            'species' => Species::orderBy('name')->get(),
+            'species' => Species::orderBy('name', 'desc')->get(),
         ]);
     }
 
@@ -27,7 +27,7 @@ class PetsController extends Controller
         $animal = $this->animals->findOne($id);
 
         return Inertia::render('Pets/Show', [
-            'animal' => $animal
+            'animal' => $animal,
         ]);
     }
 }

@@ -21,18 +21,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [Controllers\ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin/dashboard', Controllers\Admin\DashboardController::class)->name('admin.dashboard');
+    // Grouped admin routes
+    Route::prefix('admin')
+        ->middleware(['verified'])
+        ->group(function () {
+            Route::get('/dashboard', Controllers\Admin\DashboardController::class)->name('admin.dashboard');
 
-    Route::resource('admin/pets', Controllers\Admin\Pets\PetsController::class)
-        ->except(['index'])
-        ->names('admin.pets');
+            Route::resource('/pets', Controllers\Admin\Pets\PetsController::class)
+                ->except(['index'])
+                ->names('admin.pets');
 
-    Route::get('/admin/pets', [Controllers\Admin\Pets\PetsController::class, 'index'])->name('admin.pets.index');
-    Route::get('/admin/pets/{animal}', [Controllers\Admin\Pets\PetsController::class, 'show'])->name('admin.pets.show');
-    Route::get('/admin/pets/{animal}/adoptions', [Controllers\Admin\Pets\AdoptionsController::class, 'show'])->name('admin.pets.adoptions.show');
+            Route::get('/pets', [Controllers\Admin\Pets\PetsController::class, 'index'])->name('admin.pets.index');
+            Route::get('/pets/{animal}', [Controllers\Admin\Pets\PetsController::class, 'show'])->name('admin.pets.show');
+            Route::get('/pets/{animal}/adoptions', [Controllers\Admin\Pets\AdoptionsController::class, 'show'])->name('admin.pets.adoptions.show');
+            Route::post('/pets/{animal}/adoptions/{adoption}/approve', [Controllers\Admin\Pets\AdoptionsController::class, 'approve'])->name('admin.pets.adoptions.approve');
+
+            Route::get('/users', [Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
+            Route::get('/users/{user}', [Controllers\Admin\UsersController::class, 'show'])->name('admin.users.show');
+            Route::patch('/users/{user}', [Controllers\Admin\UsersController::class, 'update'])->name('admin.users.update');
+        });
 });
 
 require __DIR__.'/auth.php';

@@ -22,15 +22,16 @@ class AnimalControllerTest extends TestCase
         Animal::factory()
             ->for($species)
             ->count(5)
+            ->state(['available' => true])
             ->create();
         $this->assertDatabaseCount(Animal::class, 5);
 
         $this->actingAs(User::factory()->create());
-        $response = $this->get(route('animals.index'));
+        $response = $this->get(route('pets.index'));
 
         $response->assertStatus(200);
         $response->assertInertia(fn (Assert $page) => $page
-            ->component('Animals/Index')
+            ->component('Pets/Index')
             ->has('animals.data', 5)
         );
 

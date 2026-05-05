@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Animal;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class AnimalRepository
@@ -31,10 +32,10 @@ class AnimalRepository
     /**
      * Find a single animal by it's primary key
      *
-     * @param integer $id The id of the animal
-     * @param bool $isAvailable Is the pet available or not
-     * @return Animal
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException<Animal>
+     * @param  int  $id  The id of the animal
+     * @param  bool  $isAvailable  Is the pet available or not
+     *
+     * @throws ModelNotFoundException<Animal>
      */
     public function findOne(int $id, bool $isAvailable = false): Animal
     {

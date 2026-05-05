@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -16,7 +17,7 @@ class AdoptionsController extends Controller
         private AnimalRepository $animalRepo
     ) {}
 
-    public function store(StoreAdoptionRequest $request): NotFoundHttpException | RedirectResponse
+    public function store(StoreAdoptionRequest $request): NotFoundHttpException|RedirectResponse
     {
         try {
             $animal = $this->animalRepo->findOne($request->input('id'), true);
@@ -24,7 +25,7 @@ class AdoptionsController extends Controller
             return new NotFoundHttpException('Pet cannot be found or is unavailable');
         }
 
-        $adoption = new Adoption();
+        $adoption = new Adoption;
         $adoption->notes = $request->input('notes');
         $adoption->user_id = Auth::id();
         $adoption->animal_id = $animal->id;

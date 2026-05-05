@@ -25,7 +25,7 @@ class PetsController extends Controller
 
         return Inertia::render('Admin/Pets/Index', [
             'animals' => $animals,
-            'species' => Species::orderBy('name')->get()
+            'species' => Species::orderBy('name')->get(),
         ]);
     }
 

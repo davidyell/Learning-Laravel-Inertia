@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Requests;
@@ -25,14 +26,14 @@ class StoreAdoptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'notes' => 'required|min:10'
+            'notes' => 'required|min:10',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'notes.required' => 'You must let us know why you\'d like to adopt this pet.'
+            'notes.required' => 'You must let us know why you\'d like to adopt this pet.',
         ];
     }
 }

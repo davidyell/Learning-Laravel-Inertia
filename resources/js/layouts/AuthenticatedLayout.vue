@@ -64,6 +64,19 @@ const { user } = useAuth();
                                     Pets
                                 </Link>
                                 <Link
+                                    :href="route('admin.users.index')"
+                                    :class="
+                                        route().current('admin.users.index') ||
+                                        route().current('admin.users.show') ||
+                                        route().current('admin.users.update')
+                                            ? 'border-indigo-400 text-gray-900'
+                                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                                    "
+                                    class="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none"
+                                >
+                                    Users
+                                </Link>
+                                <Link
                                     :href="route('home')"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 hover:border-gray-300 hover:text-gray-700 transition duration-150 ease-in-out focus:outline-none"
                                 >
